@@ -1,3 +1,7 @@
 *.log
 .DS_Store
 Thumbs.db
+# Ignore local secret config
+firmware-pluviografo/PluviografoC/config_env.h
+firmware-pluviografo/PluviografoC/env
+firmware-pluviografo/PluviografoC/env.example
