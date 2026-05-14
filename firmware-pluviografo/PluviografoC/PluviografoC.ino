@@ -17,6 +17,9 @@
 #include <WiFi.h>
 #include <WebServer.h>
 
+// Archivo con variables sensibles (gitignored). Copiar config_env.example.h -> config_env.h
+#include "config_env.h"
+
 // --- 1. CONFIGURACIÓN DEL MÓDEM A7670G ---
 #define TINY_GSM_MODEM_SIM7600  
 #define MODEM_TX             26 
@@ -39,15 +42,15 @@
 #include <TinyGsmClient.h>
 #include <PubSubClient.h>
 
-// --- 3. CREDENCIALES ---
-const char apn[]        = "internet.comcel.com.co"; 
-const char gprsUser[]   = "";
-const char gprsPass[]   = "";
-const char* mqtt_server = "38.242.158.7";
-const int   mqtt_port   = 1883;
-const char* mqtt_user   = "elheim";
-const char* mqtt_pass   = "clave";
-const char* mqtt_topic  = "pluviografo/sgc"; 
+// --- 3. CREDENCIALES (proporcionadas por config_env.h) ---
+const char* apn         = SECRET_APN;
+const char* gprsUser    = SECRET_GPRS_USER;
+const char* gprsPass    = SECRET_GPRS_PASS;
+const char* mqtt_server = SECRET_MQTT_SERVER;
+const int   mqtt_port   = SECRET_MQTT_PORT;
+const char* mqtt_user   = SECRET_MQTT_USER;
+const char* mqtt_pass   = SECRET_MQTT_PASS;
+const char* mqtt_topic  = SECRET_MQTT_TOPIC;
 
 // --- 4. TIEMPOS Y WATCHDOG ---
 #define uS_TO_S_FACTOR 1000000ULL 
@@ -199,7 +202,7 @@ void iniciarPortalMantenimiento() {
   pinMode(PIN_REED_SWITCH, INPUT_PULLUP);
   WiFi.disconnect(true); WiFi.mode(WIFI_OFF); delay(100);
   WiFi.persistent(false); WiFi.mode(WIFI_AP);
-  WiFi.softAP("Pluviografo_Datos", "12345678");
+  WiFi.softAP("Pluviografo_Datos", SECRET_WIFI_AP_PASS);
   configurarServidorWeb();
   server.begin();
   modo_wifi_activo = true;
